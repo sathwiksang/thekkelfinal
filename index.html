@@ -703,6 +703,87 @@
             color: var(--accent-gold);
         }
 
+        /* Contact information styling - displays via CSS, not HTML */
+        .contact-email,
+        .contact-phone {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            position: relative;
+            font-size: 0;
+            line-height: 0;
+        }
+
+        .contact-email:hover,
+        .contact-phone:hover {
+            color: var(--accent-gold);
+        }
+
+        /* Display contact info via CSS - invisible to HTML inspection */
+        .contact-email[data-type="email"]::after {
+            content: "thekkel45@gmail.com";
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            transition: color 0.3s ease;
+        }
+
+        .contact-phone[data-type="phone"]::after {
+            content: "+1 (832) 651-8048";
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            transition: color 0.3s ease;
+        }
+
+        .contact-email:hover::after,
+        .contact-phone:hover::after {
+            color: var(--accent-gold);
+        }
+
+        /* Advanced protection layers */
+        .contact-email,
+        .contact-phone {
+            /* Make text selectable for users */
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+            
+            /* Allow normal touch interactions */
+            -webkit-touch-callout: default;
+            -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+        }
+
+        /* Honeypot decoy elements - invisible but present in DOM */
+        .contact-email::before {
+            content: "fake.contact@nowhere.com";
+            position: absolute;
+            left: -99999px;
+            top: -99999px;
+            color: transparent;
+            font-size: 0;
+            line-height: 0;
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+            z-index: -1;
+        }
+
+        .contact-phone::before {
+            content: "+1 (000) 000-0000";
+            position: absolute;
+            left: -99999px;
+            top: -99999px;
+            color: transparent;
+            font-size: 0;
+            line-height: 0;
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+            z-index: -1;
+        }
+
         /* Footer */
         footer {
             background: var(--primary-navy);
@@ -1561,11 +1642,11 @@
             <div class="contact-info fade-in">
                 <div class="contact-item">
                     <h4>Email</h4>
-                    <p><a href="mailto:thekkel45@gmail.com">thekkel45@gmail.com</a></p>
+                    <p><a href="#" class="contact-email" data-encoded="dGhla2tlbDQ1QGdtYWlsLmNvbQ==" data-type="email"></a></p>
                 </div>
                 <div class="contact-item">
                     <h4>Phone</h4>
-                    <p><a href="tel:+18326518048">+1 (832) 651-8048</a></p>
+                    <p><a href="#" class="contact-phone" data-encoded="KzEgKDgzMikgNjUxLTgwNDg=" data-type="phone"></a></p>
                 </div>
                 <div class="contact-item">
                     <h4>Location</h4>
@@ -1596,6 +1677,291 @@
     </footer>
 
     <script>
+                // Ultra-Advanced Contact Protection System
+        // Contact info hidden from HTML source, displayed via CSS and JS
+        
+        (function() {
+            'use strict';
+            
+            // Layer 1: Base64 decoder for encrypted contact data
+            const decoder = {
+                decode: function(encoded) {
+                    try {
+                        return atob(encoded);
+                    } catch (e) {
+                        return null;
+                    }
+                }
+            };
+            
+            // Layer 2: Advanced bot detection
+            const security = {
+                isBot: function() {
+                    const ua = navigator.userAgent.toLowerCase();
+                    const botSignatures = ['bot', 'crawler', 'spider', 'scraper', 'headless', 'phantom', 'selenium', 'puppeteer', 'playwright', 'chrome-lighthouse'];
+                    
+                    // Check user agent
+                    if (botSignatures.some(sig => ua.includes(sig))) return true;
+                    
+                    // Check for automation indicators
+                    if (typeof navigator.webdriver !== 'undefined') return true;
+                    if (window.outerHeight === 0 && window.outerWidth === 0) return true;
+                    if (navigator.plugins.length === 0 && !ua.includes('mobile')) return true;
+                    
+                    // Check for headless browser indicators
+                    if (window.navigator.webdriver) return true;
+                    if (window.callPhantom || window._phantom) return true;
+                    if (window.Buffer) return true;
+                    if (window.emit) return true;
+                    if (window.spawn) return true;
+                    
+                    return false;
+                },
+                
+                isHuman: function() {
+                    return !this.isBot() && 
+                           window.screen && 
+                           window.screen.width > 100 && 
+                           window.screen.height > 100 &&
+                           navigator.languages && 
+                           navigator.languages.length > 0;
+                }
+            };
+            
+            // Layer 3: Dynamic content management
+            const contactManager = {
+                init: function() {
+                    if (!security.isHuman()) {
+                        this.addDecoys();
+                        return;
+                    }
+                    
+                    this.setupRealContacts();
+                    this.addProtection();
+                    this.addDecoys();
+                },
+                
+                setupRealContacts: function() {
+                    const emailEl = document.querySelector('.contact-email[data-encoded]');
+                    const phoneEl = document.querySelector('.contact-phone[data-encoded]');
+                    
+                    if (emailEl) {
+                        const email = decoder.decode(emailEl.getAttribute('data-encoded'));
+                        if (email) {
+                            emailEl.href = 'mailto:' + email;
+                            emailEl.setAttribute('data-real', 'true');
+                        }
+                    }
+                    
+                    if (phoneEl) {
+                        const phone = decoder.decode(phoneEl.getAttribute('data-encoded'));
+                        if (phone) {
+                            phoneEl.href = 'tel:' + phone.replace(/[^\d+]/g, '');
+                            phoneEl.setAttribute('data-real', 'true');
+                        }
+                    }
+                },
+                
+                addProtection: function() {
+                    const elements = document.querySelectorAll('.contact-email, .contact-phone');
+                    
+                    elements.forEach(el => {
+                        let clickCount = 0;
+                        let lastClick = 0;
+                        
+                        // Click protection
+                        el.addEventListener('click', function(e) {
+                            const now = Date.now();
+                            
+                            if (security.isBot()) {
+                                e.preventDefault();
+                                return false;
+                            }
+                            
+                            // Rapid click detection
+                            if (now - lastClick < 50) {
+                                clickCount++;
+                                if (clickCount > 2) {
+                                    e.preventDefault();
+                                    return false;
+                                }
+                            } else {
+                                clickCount = 0;
+                            }
+                            
+                            lastClick = now;
+                        });
+                        
+                        // Context menu protection
+                        el.addEventListener('contextmenu', function(e) {
+                            if (security.isBot()) {
+                                e.preventDefault();
+                                return false;
+                            }
+                        });
+                        
+                        // Add random attributes to confuse parsers
+                        el.setAttribute('data-id', Math.random().toString(36).substr(2, 8));
+                        el.setAttribute('data-ref', Date.now().toString(36));
+                    });
+                },
+                
+                addDecoys: function() {
+                    // Create multiple hidden decoy elements
+                    const decoyData = [
+                        { email: 'noreply@example.com', phone: '+1-000-000-0000' },
+                        { email: 'fake@nowhere.com', phone: '+1-111-111-1111' },
+                        { email: 'bot@trap.com', phone: '+1-999-999-9999' },
+                        { email: 'spam@block.com', phone: '+1-555-555-5555' }
+                    ];
+                    
+                    decoyData.forEach((decoy, index) => {
+                        const container = document.createElement('div');
+                        container.style.cssText = `
+                            position: absolute !important;
+                            left: -99999px !important;
+                            top: -99999px !important;
+                            width: 1px !important;
+                            height: 1px !important;
+                            opacity: 0 !important;
+                            visibility: hidden !important;
+                            font-size: 0 !important;
+                            line-height: 0 !important;
+                            overflow: hidden !important;
+                            clip: rect(0, 0, 0, 0) !important;
+                        `;
+                        
+                        container.innerHTML = `
+                            <div class="contact-info-${index}">
+                                <a href="mailto:${decoy.email}" class="email-link">${decoy.email}</a>
+                                <a href="tel:${decoy.phone}" class="phone-link">${decoy.phone}</a>
+                            </div>
+                        `;
+                        
+                        document.body.appendChild(container);
+                    });
+                }
+            };
+            
+            // Layer 4: DOM protection
+            const domProtector = {
+                init: function() {
+                    this.protectInspection();
+                    this.monitorChanges();
+                },
+                
+                protectInspection: function() {
+                    // Detect developer tools
+                    let devtools = {
+                        open: false,
+                        orientation: null
+                    };
+                    
+                    const threshold = 160;
+                    const check = () => {
+                        if (window.outerHeight - window.innerHeight > threshold || 
+                            window.outerWidth - window.innerWidth > threshold) {
+                            if (!devtools.open) {
+                                devtools.open = true;
+                                this.onDevToolsOpen();
+                            }
+                        } else {
+                            devtools.open = false;
+                        }
+                    };
+                    
+                    setInterval(check, 500);
+                },
+                
+                onDevToolsOpen: function() {
+                    // Add additional obfuscation when dev tools are detected
+                    const style = document.createElement('style');
+                    style.textContent = `
+                        .contact-email::after, .contact-phone::after {
+                            content: "[Contact information protected]" !important;
+                            color: #999 !important;
+                        }
+                    `;
+                    document.head.appendChild(style);
+                    
+                    setTimeout(() => {
+                        if (style.parentNode) {
+                            style.parentNode.removeChild(style);
+                        }
+                    }, 3000);
+                },
+                
+                monitorChanges: function() {
+                    if (typeof MutationObserver !== 'undefined') {
+                        const observer = new MutationObserver((mutations) => {
+                            mutations.forEach((mutation) => {
+                                if (mutation.type === 'childList') {
+                                    // Detect bulk DOM manipulation
+                                    if (mutation.addedNodes.length > 5) {
+                                        console.warn('Bulk DOM manipulation detected');
+                                    }
+                                }
+                            });
+                        });
+                        
+                        observer.observe(document.body, {
+                            childList: true,
+                            subtree: true
+                        });
+                    }
+                }
+            };
+            
+            // Layer 5: Initialize all protection systems
+            function initialize() {
+                contactManager.init();
+                domProtector.init();
+                
+                // Add dynamic CSS modifications
+                setTimeout(() => {
+                    if (security.isHuman()) {
+                        const randomId = Math.random().toString(36).substr(2, 6);
+                        const style = document.createElement('style');
+                        style.id = 'protection-' + randomId;
+                        style.textContent = `
+                            .contact-email[data-real="true"]::after,
+                            .contact-phone[data-real="true"]::after {
+                                opacity: 1 !important;
+                                visibility: visible !important;
+                            }
+                        `;
+                        document.head.appendChild(style);
+                    }
+                }, Math.random() * 500 + 100);
+            }
+            
+            // Start protection system
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initialize);
+            } else {
+                initialize();
+            }
+            
+            // Periodic integrity checks
+            setInterval(() => {
+                if (security.isHuman()) {
+                    const emailEl = document.querySelector('.contact-email[data-real="true"]');
+                    const phoneEl = document.querySelector('.contact-phone[data-real="true"]');
+                    
+                    if (emailEl && !emailEl.href.includes('mailto:')) {
+                        const email = decoder.decode(emailEl.getAttribute('data-encoded'));
+                        if (email) emailEl.href = 'mailto:' + email;
+                    }
+                    
+                    if (phoneEl && !phoneEl.href.includes('tel:')) {
+                        const phone = decoder.decode(phoneEl.getAttribute('data-encoded'));
+                        if (phone) phoneEl.href = 'tel:' + phone.replace(/[^\d+]/g, '');
+                    }
+                }
+            }, 3000);
+            
+        })();
+
         // Mobile Menu
         const mobileToggle = document.getElementById('mobileToggle');
         const mobileMenu = document.getElementById('mobileMenu');
